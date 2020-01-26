@@ -27,8 +27,9 @@ int main() {
 		BSP_LED_Toggle(LED1);
 		for(size_t i ; i < 80000000; i++);
 
+		fprintf(stdout, "Seconds %d.\r", cycles);
+		fflush(stdout);
 		++cycles;
-		printf("Seconds %d.\r", cycles);
 	}
 	// Infinite loop, never return.
 }

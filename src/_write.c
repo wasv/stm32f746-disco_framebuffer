@@ -83,13 +83,12 @@ ssize_t _write(int fd __attribute__((unused)),
 			BSP_LCD_DisplayChar((cPos % sWidth) * fWidth,
 					(cPos / sWidth) * fHeight, buf[i]);
 			cPos++;
-		} else if (buf[i] == 0x0A) {
+		} else if (buf[i] == '\n') {
 			cPos = cPos + sWidth - (cPos % sWidth);
 			BSP_LCD_ClearStringLine(cPos/sWidth);
-		} else if (buf[i] == 0x0D) {
+		} else if (buf[i] == '\r') {
 			cPos = cPos - (cPos % sWidth);
 		}
-		BSP_LCD_Reload(LCD_RELOAD_VERTICAL_BLANKING);
 	}
 	return i;
 #endif // TRACE
