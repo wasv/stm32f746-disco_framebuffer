@@ -32,6 +32,7 @@
 
 #include <errno.h>
 #include "diag/Trace.h"
+#include "bsp/stm32746g_discovery_lcd.h"
 
 // ----------------------------------------------------------------------------
 
@@ -49,22 +50,52 @@
 // ignored.
 
 ssize_t
-_write (int fd, const char* buf, size_t nbyte);
+_write(int fd, const uint8_t *buf, size_t nbyte);
 
-ssize_t
-_write (int fd __attribute__((unused)), const char* buf __attribute__((unused)),
-	size_t nbyte __attribute__((unused)))
-{
+uint32_t cPos = 0;
+
+ssize_t _write(int fd __attribute__((unused)),
+		const uint8_t *buf __attribute__((unused)),
+		size_t nbyte __attribute__((unused))) {
 #if defined(TRACE)
   // STDOUT and STDERR are routed to the trace device
   if (fd == 1 || fd == 2)
     {
       return trace_write (buf, nbyte);
     }
+#else
+	if (fd == 1) {
+		BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+	} else if (fd == 2) {
+		BSP_LCD_SetTextColor(LCD_COLOR_RED);
+	} else {
+		BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+	}
+	uint16_t fWidth = BSP_LCD_GetFont()->Width;
+	uint16_t fHeight = BSP_LCD_GetFont()->Height;
+
+	uint32_t sWidth = BSP_LCD_GetXSize() / fWidth;
+	uint32_t sHeight = BSP_LCD_GetYSize() / fHeight;
+
+	size_t i = 0;
+	for (; i < nbyte; i++) {
+		if (buf[i] >= 0x20 && buf[i] < 0x7F) {
+			BSP_LCD_DisplayChar((cPos % sWidth) * fWidth,
+					(cPos / sWidth) * fHeight, buf[i]);
+			cPos++;
+		} else if (buf[i] == 0x0A) {
+			cPos = cPos + sWidth - (cPos % sWidth);
+			BSP_LCD_ClearStringLine(cPos/sWidth);
+		} else if (buf[i] == 0x0D) {
+			cPos = cPos - (cPos % sWidth);
+		}
+		BSP_LCD_Reload(LCD_RELOAD_VERTICAL_BLANKING);
+	}
+	return i;
 #endif // TRACE
 
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
 // ----------------------------------------------------------------------------
