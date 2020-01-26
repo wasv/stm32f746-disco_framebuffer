@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "bsp/stm32746g_discovery_lcd.h"
+#include "stm32f7xx_hal.h"
 
 // ----- main() ---------------------------------------------------------------
 #pragma GCC diagnostic push
@@ -25,7 +26,7 @@ int main() {
 	unsigned int cycles = 0;
 	while (1) {
 		BSP_LED_Toggle(LED1);
-		for(size_t i ; i < 80000000; i++);
+		HAL_Delay(500);
 
 		fprintf(stdout, "Seconds %d.\r", cycles);
 		fflush(stdout);
