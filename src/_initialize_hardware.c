@@ -109,13 +109,11 @@ void __initialize_hardware(void) {
 }
 
 // This is a sample SysTick handler, use it if you need HAL timings.
-void __attribute__ ((section(".after_vectors")))
-SysTick_Handler(void)
-  {
+void __attribute__ ((section(".after_vectors"))) SysTick_Handler(void) {
 #if defined(USE_HAL_DRIVER)
-    HAL_IncTick();
+	HAL_IncTick();
 #endif
-  }
+}
 
 // ----------------------------------------------------------------------------
 
@@ -137,7 +135,7 @@ __attribute__((weak)) SystemClock_Config(void) {
 	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
 // Comment this out after checking.
-#warning "Please check if the SystemClock_Config() settings match your board!"
+//#warning "Please check if the SystemClock_Config() settings match your board!"
 	// Comment out the warning after checking and updating.
 
 	RCC_OscInitTypeDef RCC_OscInitStruct;
