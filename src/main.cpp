@@ -18,6 +18,7 @@ int main() {
 	BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
 	BSP_LCD_Clear(LCD_COLOR_BLACK);
 	BSP_LCD_SetBackColor(LCD_COLOR_BLACK);
+	BSP_LCD_SetFont(&Font12);
 	BSP_LCD_DisplayOn();
 
 	puts("Standard output message.");
