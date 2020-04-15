@@ -34,6 +34,30 @@
  */
 
 /*
+ * Memory Spaces Definitions.
+ *
+ * Need modifying for a specific board.
+ *   FLASH.ORIGIN: starting address of flash
+ *   FLASH.LENGTH: length of flash
+ *   RAM.ORIGIN: starting address of RAM bank 0
+ *   RAM.LENGTH: length of RAM bank 0
+ *
+ * The values below can be addressed in further linker scripts
+ * using functions like 'ORIGIN(RAM)' or 'LENGTH(RAM)'.
+ */
+
+MEMORY
+{
+  /*
+   * DTCM 64K, SRAM1 240K, SRAM2 16K
+   */
+  RAM (xrw) : ORIGIN = 0x20010000, LENGTH = 256K
+  CCMRAM (xrw) : ORIGIN = 0x20000000, LENGTH = 64K
+  FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 1024K
+  FLASHB1 (rx) : ORIGIN = 0x90000000, LENGTH = 16M
+}
+
+/*
  * The '__stack' definition is required by crt0, do not remove it.
  */
 __stack = ORIGIN(RAM) + LENGTH(RAM);
@@ -384,45 +408,6 @@ SECTIONS
         *(.b1rodata.*)
     } >FLASHB1
     
-    /*
-     * The EXTMEM.
-     * The C or assembly source must explicitly place the code or data there
-     * using the "section" attribute.
-     */
-
-    /* EXTMEM Bank0 */
-    .eb0text : ALIGN(4)
-    {
-        *(.eb0text)                   /* remaining code */
-        *(.eb0rodata)                 /* read-only data (constants) */
-        *(.eb0rodata.*)
-    } >EXTMEMB0
-    
-    /* EXTMEM Bank1 */
-    .eb1text : ALIGN(4)
-    {
-        *(.eb1text)                   /* remaining code */
-        *(.eb1rodata)                 /* read-only data (constants) */
-        *(.eb1rodata.*)
-    } >EXTMEMB1
-    
-    /* EXTMEM Bank2 */
-    .eb2text : ALIGN(4)
-    {
-        *(.eb2text)                   /* remaining code */
-        *(.eb2rodata)                 /* read-only data (constants) */
-        *(.eb2rodata.*)
-    } >EXTMEMB2
-    
-    /* EXTMEM Bank0 */
-    .eb3text : ALIGN(4)
-    {
-        *(.eb3text)                   /* remaining code */
-        *(.eb3rodata)                 /* read-only data (constants) */
-        *(.eb3rodata.*)
-    } >EXTMEMB3
-   
-
     /* After that there are only debugging sections. */
     
     /* This can remove the debugging information from the standard libraries */    
