@@ -1,2 +1,5 @@
 # stm32f746-disco_framebuffer
-Framebuffer example code for stm32f746-disco. Designed for GNU MCU Eclipse. Using CMSIS BSP.
+
+Framebuffer example for stm32f746-disco using CMSIS BSP.
+
+Prints to LCD for console with newline and carriage return support.
