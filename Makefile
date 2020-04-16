@@ -23,8 +23,9 @@ INCS		+= -Isystem/include/bsp
 
 ARCH_FLAGS   = -mthumb -march=armv7e-m+fpv5
 
-CFLAGS      += -std=gnu11 -Wall -Wpedantic
-CPPFLAGS	+= -ggdb3 -MD $(DEFS) $(INCS) $(ARCH_FLAGS)
+CXXFLAGS    += -std=gnu++11
+CFLAGS      += -std=gnu11
+CPPFLAGS	+= -ggdb3 -Wall -Wpedantic -MD $(DEFS) $(INCS) $(ARCH_FLAGS)
 
 LDSCRIPT 	 = system/stm32f746-disco.ld
 
