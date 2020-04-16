@@ -1,19 +1,23 @@
-// -u---------------------------------------------------------------------------
+/** _write.c
+ *
+ *  Billy Stevens
+ *
+ *  Implements _write for stdio.h using framebuffer.
+ * stdout in white, stderr in red, anything else in blue.
+ * Only implements '\r' and '\n' other control codes are ignored.
+ **/
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "bsp/stm32746g_discovery_lcd.h"
 #include "stm32f7xx_hal.h"
 
-// ----- main() ---------------------------------------------------------------
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wreturn-type"
-
 int main() {
+    // Initialize LED GPIO.
     BSP_LED_Init(LED1);
 
+    // Initialize LCD and framebuffer.
     BSP_LCD_Init();
     BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
     BSP_LCD_Clear(LCD_COLOR_BLACK);
@@ -35,7 +39,3 @@ int main() {
     }
     // Infinite loop, never return.
 }
-
-#pragma GCC diagnostic pop
-
-// ----------------------------------------------------------------------------
