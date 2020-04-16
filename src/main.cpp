@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include "bsp/stm32746g_discovery_lcd.h"
+#include "bsp/stm32746g_discovery_ts.h"
 #include "stm32f7xx_hal.h"
 
 int main() {
@@ -25,9 +26,13 @@ int main() {
     BSP_LCD_SetFont(&Font12);
     BSP_LCD_DisplayOn();
 
-    puts("Standard output message.");
-    fprintf(stderr, "Standard error message.\n");
-
+    // Initialize touch screen.
+    if (BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize()) == TS_OK) {
+        fprintf(stderr, "Touchscreen connected.\n");
+    } else {
+        fprintf(stderr, "Touchscreen not responding.\n");
+    }
+    
     unsigned int cycles = 0;
     while (1) {
         BSP_LED_Toggle(LED1);
