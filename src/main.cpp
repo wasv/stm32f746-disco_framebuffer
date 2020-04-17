@@ -32,15 +32,17 @@ int main() {
     } else {
         fprintf(stderr, "Touchscreen not responding.\n");
     }
-    
-    unsigned int cycles = 0;
-    while (1) {
-        BSP_LED_Toggle(LED1);
-        HAL_Delay(500);
 
-        fprintf(stdout, "Seconds %d.\r", cycles);
-        fflush(stdout);
-        ++cycles;
+    TS_StateTypeDef ts_state;
+    while (1) {
+        if (BSP_TS_GetState(&ts_state) != TS_OK) {
+            fprintf(stderr, "Touchscreen read failed.\n");
+        }
+
+        if(ts_state.touchDetected != 0) {
+            fprintf(stdout, "Position %d, %d.\x1B[K\n\x1BM", ts_state.touchX[0], ts_state.touchY[0]);
+            fflush(stdout);
+        }
     }
     // Infinite loop, never return.
 }
