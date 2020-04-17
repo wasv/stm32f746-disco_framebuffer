@@ -1,10 +1,9 @@
-/** _write.c
+/** main.cpp
  *
- *  Billy Stevens
+ * Billy Stevens
  *
- *  Implements _write for stdio.h using framebuffer.
- * stdout in white, stderr in red, anything else in blue.
- * Only implements '\r' and '\n' other control codes are ignored.
+ * Top level initialization and main application loop.
+ *
  **/
 
 #include <stdio.h>
@@ -39,7 +38,7 @@ int main() {
             fprintf(stderr, "Touchscreen read failed.\n");
         }
 
-        if(ts_state.touchDetected != 0) {
+        if (ts_state.touchDetected != 0) {
             fprintf(stdout, "Position %d, %d.\x1B[K\n\x1BM", ts_state.touchX[0], ts_state.touchY[0]);
             fflush(stdout);
         }

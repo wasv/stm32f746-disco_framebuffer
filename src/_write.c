@@ -1,8 +1,8 @@
 /** _write.c
  *
- *  Billy Stevens
+ * Billy Stevens
  *
- *  Implements _write for stdio.h using framebuffer.
+ * Implements _write for stdio.h using framebuffer.
  * stdout in white, stderr in red, anything else in blue.
  * Only implements '\r' and '\n' other control codes are ignored.
  **/
@@ -112,8 +112,8 @@ ssize_t _write(int fd, const uint8_t *buf, size_t nbyte) {
         }
         // Handle NL
         else if (buf[i] == '\n') {
-            BSP_LCD_ClearStringLine(curLine+1);// Clear next line.
-            curPos += sWidth - curCol;         // Advance to start of next line.
+            BSP_LCD_ClearStringLine(curLine + 1); // Clear next line.
+            curPos += sWidth - curCol;            // Advance to start of next line.
         }
         // Handle CR
         else if (buf[i] == '\r') {
@@ -126,7 +126,7 @@ ssize_t _write(int fd, const uint8_t *buf, size_t nbyte) {
                 case 'M':
                     // Handle reverse newline.
                     curPos -= sWidth + curCol; // Return to start of previous line.
-                    i++; // Advance past 'M'
+                    i++;                       // Advance past 'M'
                     break;
                 case '[':
                     i++; // Advance past '['
